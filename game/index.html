@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="게임 QA 자동화 실습을 위한 작은 Three.js 아레나" />
+    <title>MiniArena · QA Lab</title>
+  </head>
+  <body>
+    <main class="app">
+      <header class="topbar">
+        <div><p class="eyebrow">GAME QA LAB / 001</p><h1>MiniArena<span>작은 아레나, 명확한 규칙.</span></h1></div>
+        <div class="header-actions"><span class="status" data-testid="status">Playing</span><button id="pause" data-testid="pause">Pause</button><button id="retry" data-testid="retry">Retry ↻</button></div>
+      </header>
+      <section class="hud" aria-label="게임 상태">
+        <div class="hp-stat"><span class="stat-label">PLAYER HP</span><strong data-testid="hp">100 / 100</strong><div class="hp-track" role="progressbar" aria-label="플레이어 HP" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><div id="hp-fill"></div></div></div>
+        <div><span class="stat-label">STAGE</span><strong data-testid="stage">01 <small>/ 03</small></strong></div>
+        <div><span class="stat-label">DEFEATED</span><strong data-testid="defeated">0 <small>/ 3</small></strong></div>
+        <div><span class="stat-label">GAME TIME</span><strong data-testid="time">00:00.0</strong></div>
+      </section>
+      <section class="arena-panel" aria-label="아레나 게임">
+        <canvas id="arena" tabindex="0" aria-label="아레나. WASD 이동, 입력을 놓으면 자동 공격, Esc 일시정지."></canvas>
+        <div class="arena-label"><span class="live-dot"></span> ARENA <span id="stage-caption">01</span><span class="arena-sub">TOP VIEW / 18 × 18</span></div>
+        <div class="legend"><span><i class="dot player-dot"></i>플레이어</span><span><i class="dot enemy-dot"></i>적</span><span><i class="dot potion-dot"></i>포션 +30 HP</span></div>
+        <div id="overlay" class="overlay" hidden>
+          <div class="dialog" role="dialog" aria-labelledby="overlay-title" aria-describedby="overlay-description" aria-modal="true">
+            <p class="eyebrow" id="overlay-kicker">SIMULATION PAUSED</p>
+            <h2 id="overlay-title">Paused</h2>
+            <p id="overlay-description"></p>
+            <div class="dialog-actions"><button id="resume" class="primary" data-testid="resume">Resume</button><button id="next-stage" class="primary" data-testid="next-stage" hidden>Next Stage →</button><button id="overlay-retry" data-testid="overlay-retry">Retry ↻</button></div>
+          </div>
+        </div>
+        <p id="render-error" role="alert" hidden></p>
+      </section>
+      <footer class="instructions"><div><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd><span>이동</span><span class="divider"></span><span>키를 놓으면 자동 공격</span></div><div><kbd>ESC</kbd><span>일시정지 / 재개</span><span class="divider"></span><span data-testid="potion-status">포션 대기</span></div></footer>
+      <details class="qa-notes"><summary>게임 규칙 & QA 정보</summary><p>플레이어 공격: 0.65초 / 피해 20 · 적 HP: 100 · 적 공격: <span data-testid="enemy-interval">1.8초</span> / 피해 10 · 적 생성: 0, 2, 4초 · 적 이동: 초당 1.2 · 방향 변경: 1초마다</p><p>파란 투사체는 플레이어, 주황 투사체는 적의 공격입니다. 적과 몸이 닿아도 접촉 피해는 없습니다. 다음 스테이지는 HP를 유지하며, Retry는 항상 1단계부터 다시 시작합니다.</p><p id="qa-mode" hidden>QA 모드 · 자동 시간 진행 중지 · window.__ARENA_QA__ 사용 가능</p></details>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
